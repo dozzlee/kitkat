@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'l+8l4dd65**kbdi9ymb@$kidf&(1xf#6v0wo9!^$tq-)!)-#6q'
+SECRET_KEY = '^1gv((_a0s*5#8u$@s#6a^ed%%gu_nng+36%q!a26uodcr8ip-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'backend',
 ]
 
 MIDDLEWARE = [
@@ -75,10 +74,14 @@ WSGI_APPLICATION = 'CodedEvents.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+ 	'default': {
+                #'ENGINE': 'django.db.backends.mysql',
+		#'OPTIONS': {
+            	#	'read_default_file': os.path.join(BASE_DIR, 'db.cnf'),
+        	#},
+		'ENGINE': 'django.db.backends.sqlite3',
+        	'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
 }
 
 
