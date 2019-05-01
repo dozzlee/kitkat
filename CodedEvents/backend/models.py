@@ -18,10 +18,16 @@ class Address(models.Model):
     province = models.TextField
     code = models.TextField
 
+    class Meta:
+        verbose_name_plural = 'Addresses'
+
 
 class Category(models.Model):
     name = models.CharField(max_length=30)
     desc = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = 'Categories'
 
 
 class Event(models.Model):
