@@ -1,22 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+# TODO: Add more commenting/explanation
+# TODO: Create tests for these models, perhaps using django-faker
+# TODO: Explain attributes i.e. on_delete
+
 
 class Role(models.Model):
     name = models.CharField(max_length=30)
     desc = models.CharField(max_length=100)
 
 
+# This extend the default User model provided by Django, this allows you to store
+# non-auth related information about a user.
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     roles = models.ManyToManyField(Role)
 
 
 class Address(models.Model):
-    street = models.TextField
-    city = models.TextField
-    province = models.TextField
-    code = models.TextField
+    street = models.CharField(max_length=255, null=True)
+    city = models.CharField(max_length=100, null=True)
+    province = models.CharField(max_length=30, null=True)
+    code = models.CharField(max_length=30, null=True)
 
     class Meta:
         verbose_name_plural = 'Addresses'
@@ -53,4 +59,4 @@ class Ticket(models.Model):
 
 class Booking(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
