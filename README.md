@@ -24,5 +24,5 @@
 ### Admin Access
 1. Start the server - `python manage.py runserver`
 2. Go to `http://127.0.0.1:8000/admin/`
-3. Login with username: `admin`, password: `Coded3vents`
+3. Ask for the login details
 4. When done, hit CTRL+C to in the terminal to stop the server
