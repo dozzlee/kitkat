@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'backend',
     'rest_framework_swagger',
     'drf_yasg',
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'CodedEvents.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['backend/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,7 +107,21 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+REST_FRAMEWORK = {
+    # Parser classes priority-wise for Swagger
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.JSONParser',
+    ],
+}
+
 SWAGGER_SETTINGS = {
+    # For using django admin panel for authentication
+    'USE_SESSION_AUTH': True,
+    'LOGIN_URL': 'rest_framework:login',
+    'LOGOUT_URL': 'rest_framework:logout',
     'SHOW_REQUEST_HEADERS': True,
     'SUPPORTED_SUBMIT_METHODS': [
         'get',
@@ -114,7 +129,23 @@ SWAGGER_SETTINGS = {
         'patch',
         'delete',
         'put'
-    ]
+    ],
+    # For using other mechanisms for authentication ('basic' uses username/password)
+    # 'SECURITY_DEFINITIONS': {
+    #     'basic': {
+    #         'type': 'basic',
+    #     },
+    # },
+    'SECURITY_DEFINITIONS': {
+        "api_key": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+          },
+    },
+
+    # For validating your swagger schema(setting None to not validate)
+    'VALIDATOR_URL': None,
 }
 
 AUTH_USER_MODEL = 'backend.Profile'
