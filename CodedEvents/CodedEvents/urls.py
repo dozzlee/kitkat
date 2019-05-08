@@ -14,8 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, re_path
-from django.conf.urls import url, include
+from django.urls import path, re_path, include
+from django.conf.urls import url
 from backend.swagger_schema import SwaggerSchemaView
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -34,10 +34,13 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', admin.site.urls),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # Authentication
+    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    #API
     url(r'', include('backend.urls')),
     re_path(r'^api/v1/', include('backend.urls')),
     url(r'^swagger/$', SwaggerSchemaView.as_view()),
-    url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),   
 ]

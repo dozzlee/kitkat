@@ -22,7 +22,6 @@ class CustomSchemaGenerator(SchemaGenerator):
         yaml_doc = None
 
         # Check and load if the function has __doc__
-
         if view and view.__doc__:
             try:
                 yaml_doc = yaml.load(view.__doc__)
@@ -83,9 +82,7 @@ class SwaggerSchemaView(APIView):
         renderers.SwaggerUIRenderer
     ]
 
-
     def get(self, request):
-
         # Use Custom schema generator to generate schema
         urlpatterns = [
             url(r'^api/v1/', include('backend.urls')),

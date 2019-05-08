@@ -2,7 +2,6 @@ from backend.models import Ticket
 from backend.serializers import TicketSerializer
 from rest_framework import viewsets
 
-
 class TicketViewSet(viewsets.ModelViewSet):
     """
     retrieve:

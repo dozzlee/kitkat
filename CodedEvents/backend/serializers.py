@@ -11,17 +11,33 @@ class RoleSerializer(serializers.HyperlinkedModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
 
+    def create(self, validated_data):
+        user = Profile.objects.create_user(**validated_data)
+        return user
+
     class Meta:
         model = Profile
-        fields = ('id', 'first_name', 'last_name', 'email', 'roles', 
+        fields = ('id', 'first_name', 'last_name', 'email', 'password', 'roles', 
         'last_login', 'is_superuser', 'is_staff', 'is_active', 
         'date_joined', 'roles')
 
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+
 class ProfileCreateSerializer(serializers.ModelSerializer):
+    
+    def create(self, validated_data):
+        user = Profile.objects.create_user(**validated_data)
+        return user
 
     class Meta:
         model = Profile
-        fields = ('first_name', 'last_name', 'email', 'password', 'roles')
+        fields = ('first_name', 'last_name', 'email', 'password')
+
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
 
 class AddressSerializer(serializers.ModelSerializer):
 
