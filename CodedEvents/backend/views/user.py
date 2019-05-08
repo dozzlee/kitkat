@@ -3,6 +3,7 @@ from backend.models import Profile
 from backend.serializers import ProfileCreateSerializer, ProfileSerializer
 from rest_framework import viewsets
 
+# TODO: Override perform_create to use customUserManager. 
 class UserViewSet(viewsets.ModelViewSet):
     """
     retrieve:
