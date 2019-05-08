@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'backend',
     'rest_framework_swagger',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -105,6 +106,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SWAGGER_SETTINGS = {
+    'SHOW_REQUEST_HEADERS': True,
+    'SUPPORTED_SUBMIT_METHODS': [
+        'get',
+        'post',
+        'patch',
+        'delete',
+        'put'
+    ]
+}
+
+AUTH_USER_MODEL = 'backend.Profile'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/

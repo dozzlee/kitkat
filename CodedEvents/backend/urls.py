@@ -1,12 +1,17 @@
-from django.conf.urls import url
-from django.urls import path
-# from .views.address import ListAddressView
-from rest_framework_swagger.views import get_swagger_view
+from django.conf.urls import url, include
+from .views import *
+from rest_framework.routers import DefaultRouter
 
-# Create your views here.
-schema_view = get_swagger_view(title='KitKat')
+#Register routes
+router = DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'roles', RolesViewSet)
+router.register(r'ticket', TicketViewSet)
+router.register(r'event', EventViewSet)
+router.register(r'booking', BookingViewSet)
+router.register(r'address', AddressViewSet)
+router.register(r'category', CategoryViewSet)
 
 urlpatterns = [
-    url(r'^$',schema_view),
-    # path('address/', ListAddressView.as_view(), name="address-all"),
+    url(r'', include(router.urls)),
 ]
