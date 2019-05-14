@@ -1,7 +1,0 @@
-[client]
-database = CodedDB
-user = SA
-password = C0d3dEv3nts
-host = codeddb.cyqai85cs5qy.us-east-2.rds.amazonaws.com
-port = 1433
-default-character-set = utf8
