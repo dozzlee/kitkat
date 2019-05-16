@@ -110,10 +110,6 @@ def revoke_token(request):
     return Response(r.json(), r.status_code)
 
 urlpatterns = [
-    # url(r'^register', register),
-    # url(r'^token', token),
-    # url(r'^token/refresh/', refresh_token),
-    # url(r'^token/revoke/', revoke_token),
     path('register/', register),
     path('token/', token),
     path('token/refresh/', refresh_token),

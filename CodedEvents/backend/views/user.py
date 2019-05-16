@@ -29,7 +29,7 @@ class UserViewSet(viewsets.ModelViewSet):
         ('GET', ): ProfileSerializer,
         ('POST', 'PUT', 'PATCH'): ProfileCreateSerializer
     }
-
+    
     '''
     Utility class for get different serializer class by method.
     For example:
