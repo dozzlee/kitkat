@@ -26,3 +26,6 @@
 2. Go to `http://127.0.0.1:8000/admin/`
 3. Ask for the login details
 4. When done, hit CTRL+C to in the terminal to stop the server
+
+#### Extra Features for App
+1. Event organisers update sporting match details
