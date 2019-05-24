@@ -1,11 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser, AbstractBaseUser, PermissionsMixin
+from django.utils.translation import ugettext_lazy as _
+from .managers import CustomUserManager
+from django.utils import timezone
 
 # TODO: Add more commenting/explanation
 # TODO: Create tests for these models, perhaps using django-faker
 # TODO: Explain attributes i.e. on_delete
-
-
 class Role(models.Model):
     name = models.CharField(max_length=30)
     desc = models.CharField(max_length=100)
@@ -13,9 +14,18 @@ class Role(models.Model):
 
 # This extend the default User model provided by Django, this allows you to store
 # non-auth related information about a user.
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Profile(AbstractUser):
+    username = None
+    email = models.EmailField(_('email address'), unique=True)
     roles = models.ManyToManyField(Role)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.email
 
 
 class Address(models.Model):

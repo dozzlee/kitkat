@@ -5,3 +5,14 @@ password = C0d3dEv3nts
 host = codeddb.cyqai85cs5qy.us-east-2.rds.amazonaws.com
 port = 1433
 default-character-set = utf8
+https://medium.com/@unpluggedcoder/use-corresponding-serializer-class-for-different-request-method-in-django-rest-framework-ce0efc04045d
+https://www.vinta.com.br/blog/2018/django-rest-framework-read-write-serializers/
+https://testdriven.io/blog/django-custom-user-model/
+https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html
+https://medium.com/@m_haziq/comprehensive-approach-to-django-rest-swagger-2-583e91a4c833
+https://medium.com/@halfspring/guide-to-an-oauth2-api-with-django-6ba66a31d6d
+https://buildmedia.readthedocs.org/media/pdf/django-rest-swagger/stable-0.3.x/django-rest-swagger.pdf
+https://jpadilla.github.io/django-rest-framework-yaml/renderers/
+https://stackoverflow.com/questions/47254522/how-to-document-function-based-views-parameters
+https://django-oauth-toolkit.readthedocs.io/en/latest/tutorial/tutorial_03.html
+https://medium.com/@halfspring/guide-to-an-oauth2-api-with-django-6ba66a31d6d
