@@ -1,0 +1,102 @@
+{% extends "master_layout.html" %}
+
+{% block content %}
+    <div class="row" style="margin-top:50px; margin-bottom:10px;">
+        <div class="col-sm-6">
+            <a href="/backend/admin/events"><button class="btn btn-success pull-left accent-bg-5"><i class="fa fa-arrow-left"></i> View Events List</button></a>
+        </div>
+        <div class="col-sm-6">
+            <a href="/backend/admin/orders"><button class="btn btn-primary pull-right accent-bg-4">View Orders History <i class="fa fa-arrow-right"></i></button></a>
+        </div>
+    </div>
+    <div class="panel panel-info" style="">
+        <div class="panel-heading accent-bg-4">
+            <div class="panel-title accent-0"><i class="fa fa-plus"> Add New Event</i></div>
+        </div>
+        <div class="panel-body">
+            <form method="POST" action="" class="form-horizontal" enctype="multipart/form-data" role="form">
+                {% csrf_token %}
+                <fieldset>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="name">Name</label>
+                        <div class="col-md-9">
+                            <input name="{{form.name.name}}" type="text" placeholder="Event name" class="form-control input-md" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="textarea">Description</label>
+                        <div class="col-md-9">
+                            <textarea class="form-control" id="textarea" name="{{form.desc.name}}"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Organizers</label>
+                        <div class="col-md-9">
+                            <!-- {{form.organizers}} -->
+                            <input name="{{form.organizers.name}}" type="text" placeholder="Organizers" class="form-control input-md" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Categories</label>
+                        <div class="col-md-9">
+                            <!-- {{form.categories}} -->
+                            <input name="{{form.categories.name}}" type="text" placeholder="Categories" class="form-control input-md" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Address</label>
+                        <div class="col-md-9">
+                            <!-- {{form.address}} -->
+                            <input name="{{form.address.name}}" type="text" placeholder="Address" class="form-control input-md" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Tickets Available</label>
+                        <div class="col-md-9">
+                            <input name="{{form.tickets_available.name}}" type="text" placeholder="Tickets Available" class="form-control input-md" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Start Time</label>
+                        <div class="col-md-9">
+                            <input name="{{form.start_time.name}}" type="date" placeholder="Start Time" class="form-control input-md" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">End Time</label>
+                        <div class="col-md-9">
+                            <input name="{{form.end_time.name}}" type="date" placeholder="End Time" class="form-control input-md" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Registration Opens</label>
+                        <div class="col-md-9">
+                            <input name="{{form.registration_opens.name}}" type="date" placeholder="Registration Opens" class="form-control input-md" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Check Ins</label>
+                        <div class="col-md-9">
+                            <input name="{{form.check_ins.name}}" type="text" placeholder="Check Ins" class="form-control input-md" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="file">File</label>
+                        <div class="col-md-9">
+                            <input id="file" name="file" class="input-file" type="file">
+                        </div>
+                    </div>
+                    <div class="form-group" style="float:right;">
+                        <label class="col-md-3 control-label" for="submit"></label>
+                        <div class="col-md-9">
+                            <button id="submit" name="submit" class="btn btn-primary accent-bg-5 accent-0"><i class="fa fa-save"> Save</i></button>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}

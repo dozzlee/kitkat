@@ -51,20 +51,20 @@ class Event(models.Model):
     desc = models.CharField(max_length=100)
     organizers = models.ManyToManyField(Profile)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
-    tickets_available = models.IntegerField
-    check_ins = models.IntegerField
-    start_time = models.DateTimeField
-    end_time = models.DateTimeField
-    registration_opens = models.DateTimeField
+    tickets_available = models.IntegerField(default = None)
+    check_ins = models.IntegerField(default = None)
+    start_time = models.DateTimeField(default  = None, blank = False, null = False)
+    end_time = models.DateTimeField(default = None, blank = False, null = False)
+    registration_opens = models.DateTimeField(default = None)
     categories = models.ManyToManyField(Category)
 
 
 class Ticket(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    quantity = models.IntegerField
-    price = models.FloatField
+    quantity = models.IntegerField(default = None, blank=False, null=False)
+    price = models.FloatField(default = None, blank=False, null=False)
     status = models.CharField(max_length=30)
-    shut_off_time = models.DateTimeField
+    shut_off_time = models.DateTimeField(default = None, blank = False, null = False)
 
 
 class Booking(models.Model):

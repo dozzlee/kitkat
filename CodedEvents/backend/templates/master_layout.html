@@ -1,0 +1,335 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    {% block title %}<title>EventApp</title>{% endblock %}
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="private, max-age=0, no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <!-- Add additional CSS in static file -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrapv3.3.6.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.theme.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/prettyPhoto.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slider.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop.css' %}">
+    <link rel="stylesheet" href="{% static 'css/product.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tracking.css' %}">
+    <link rel="stylesheet" href="{% static 'css/color.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrapv3.3.6.min.js' %}"></script>
+    <script src="{% static 'js/jquery.prettyPhoto.js' %}"></script>
+    <script src="{% static 'js/jquery.scrollUp.min.js' %}"></script>
+    <script src="{% static 'js/jquery.slider.js' %}"></script>
+</head>
+
+<body>
+    <section>
+      <!-- @include('includes.header') -->
+      {% block sidebar %}
+    <div class="contact-info-wrapper accent-bg-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="contact-info">
+                        <ul class="nav nav-pills">
+                            <li><a class="accent-bg-0 accent-0" href="#"><i class="fa fa-phone"></i> +1234567890</a>
+                            </li>
+                            <li><a class="accent-bg-0 accent-0" href="#"><i class="fa fa-envelope"></i> admin@test.com</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="social-icons pull-right">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#"><i class="fa fa-facebook accent-0"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-twitter accent-0"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-linkedin accent-0"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-dribbble accent-0"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-google-plus accent-0"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header>
+        <div class="container-fluid">
+            <div class="header-wrapper">
+                <div class="col-md-4 col-sm-4 col-xs-12 header-right">
+                    <div class="vert-center-wrapper">
+                        <div class="vert-center">
+                            <nav class="header-auth-nav" role="navigation">
+                                <ul class="nav nav-pills navbar-nav">
+                                  {% if user.is_authenticated %}
+                                  <li role="presentation" class="dropdown has-panel">
+                                        <p style="padding-top:10px; text-transform:capitalize;">Welcome, {{ user.get_username }}</p>
+                                      </li>
+                                    {% else %}
+                                    <li role="presentation" class="dropdown has-panel">
+
+                                        </li>
+                                        <li role="presentation" class="dropdown has-panel">
+    
+                                        </li>
+                                    {% endif %} 
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo hidden-xs">
+                    <div class="vert-center-wrapper">
+                        <div class="vert-center">
+                            <a href="/backend">
+                                <img src="/images/casper.png" alt="EventApp" style="zoom:3;">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12 header-left">
+                    <div class="vert-center-wrapper">
+                        <div class="vert-center">
+                            <form class="header-search">
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="SEARCH" type="text">
+                                    <button class="btn search-btn accent-1"><i class="ti ti-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+    <div class="header-auth-nav">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid navbar-mobile-container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand show-xs" href="/backend"><img src="/images/casper.png" width="50" height="50" style="zoom:1.8; margin-left:-8px; margin-top:0px;"/>
+                    </a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-mobile" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-center line-selector" style="text-transform: capitalize !important;">
+                        <li class="active"><a href="/backend">Events</a></li>
+                        <li><a href="/backend/orders">Order History</a></li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+
+                <div class="navbar-aux-items">
+
+                    <!-- Navbar btn-group -->
+                    <div class="navbar-btn-group btn-group navbar-right no-margin-r-xs">
+
+                        <!-- Btn Wrapper -->
+                        <div class="btn-wrapper dropdown">
+
+                            <a class="btn btn-outline" data-toggle="dropdown" aria-expanded="false"><i class="ti-home"></i></a>
+
+                            <!-- Dropdown Menu -->
+                            <ul class="dropdown-menu">
+                                <li><a href="/profile">Profile</a></li>
+                                <li><a href="/order">Order History</a></li>
+                                {% if user.is_authenticated %}
+                                    {% if user.is_staff %}
+                                      <li><a href="/admin/products">Admin</a></li>
+                                      <li><a href="/admin/profiles">User Profiles</a></li>
+                                    {% endif %} 
+                                  <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+                                {% else %}
+                                <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+                                {% endif %} 
+                            </ul>
+                            <!-- /Dropdown Menu -->
+
+                        </div>
+                        <!-- /Btn Wrapper -->
+
+                        <!-- Btn Wrapper -->
+                        <div class="btn-wrapper dropdown">
+
+                            <!-- <a aria-expanded="false" class="btn btn-outline" data-toggle="dropdown">
+                                {% if user.is_authenticated %}
+                                {% if cart %}
+                                <b class="badge badge-color badge-round">
+                                  quantity
+                                </b>
+                                {% endif %} 
+                                {% endif %} 
+                              <i class="ti ti-bag"></i> 
+                            </a> -->
+
+                            <!-- Dropdown Panel -->
+                            <div class="dropdown-menu dropdown-panel dropdown-right" data-keep-open="true">
+                                <section>
+                                    <!-- Mini Cart -->
+                                    <ul class="mini-cart">
+                                        <!-- Item -->
+                                        <!-- @if(Auth::user())
+                                          @if($cart)
+                                            @foreach ($cart as $cartItem)
+                                            <li class="clearfix">
+                                                <img src="$cartItem->product->imageurl" alt="">
+                                                <div class="text">
+                                                    <a class="title" href="#">$cartItem->product->name</a>
+                                                    <div class="details">$cartItem->quantity x $ number_format($cartItem->product->price,2,'.','')
+                                                        <div class="btn-group">
+                                                            <a class="btn accent-0 accent-bg-2" href="/cart"><i class="ti ti-pencil"></i></a>
+                                                            <a class="btn btn-default" href="/carts/$cartItem->id/delete"><i class="ti ti-trash"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            @endforeach
+                                            <p style="text-align:right; margin:-10px 0px; color:#222; padding:0px;">Cart Total: $ number_format($total,2,'.','') </p>
+                                          @else
+                                            <li><p style="text-align:center;">No items in cart</p></li>
+                                          @endif
+                                        @else
+                                            <li><p style="text-align:center;">Login to view cart</p></li>
+                                        @endif -->
+                                        <!-- /Item -->
+                                    </ul>
+                                    <!-- /Mini Cart -->
+                                </section>
+
+                                <section class="section-divider">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <a class="btn btn-block accent-0 accent-bg-1" style="margin-top:5px; margin-bottom:5px;" href="/cart">view cart</a>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a class="btn btn-block accent-0 accent-bg-2" style="margin-top:5px; margin-bottom:5px;" href="/checkout">checkout</a>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <!-- /Dropdown Panel -->
+
+                        </div>
+                        <!-- /Btn Wrapper -->
+
+                    </div>
+                    <!-- /Navbar btn-group -->
+
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+    </div>
+    {% endblock %}
+
+    </section>
+
+    <section>
+      <div class="container-fluid">
+        {% block content %}{% endblock %}
+      </div>
+    </section>
+
+<!-- PARSLEY -->
+<script>
+    window.ParsleyConfig = {
+        errorsWrapper: '<div></div>',
+        errorTemplate: '<div class="alert alert-danger parsley" role="alert"></div>',
+        errorClass: 'has-error',
+        successClass: 'has-success'
+    };
+</script>
+<script src="http://parsleyjs.org/dist/parsley.js"></script>
+
+<!-- Inlude Stripe.js -->
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script>
+    // This identifies your website in the createToken call below
+    Stripe.setPublishableKey('pk_test_uQGgR7QlMeeJ2WaLLlzFBHpU');
+
+    jQuery(function($) {
+        $('#payment-form').submit(function(event) {
+            var $form = $(this);
+            var accountName = $('.stripe_first_name').val() + " " + $('.stripe_last_name').val();
+
+            //Account Name
+            addFormField($form, 'name', accountName);
+
+            // Before passing data to Stripe, trigger Parsley Client side validation
+            $form.parsley().subscribe('parsley:form:validate', function(formInstance) {
+                formInstance.submitEvent.preventDefault();
+                return false;
+            });
+
+            // Disable the submit button to prevent repeated clicks
+            $form.find('#submitBtn').prop('disabled', true);
+
+            Stripe.card.createToken($form, stripeResponseHandler);
+
+            // Prevent the form from submitting with the default action
+            return false;
+        });
+    });
+
+    function stripeResponseHandler(status, response) {
+        var $form = $('#payment-form');
+
+        if (response.error) {
+            // Show the errors on the form
+            $form.find('.payment-errors').text(response.error.message);
+            $form.find('.payment-errors').addClass('alert alert-danger');
+            $form.find('#submitBtn').prop('disabled', false);
+            $('#submitBtn').button('reset');
+        } else {
+            // response contains id and card, which contains additional card details
+            var token = response.id;
+            // Insert the token into the form so it gets submitted to the server
+            $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+            // and submit
+            $form.get(0).submit();
+        }
+    };
+
+    function addFormField(formInstance, key, value) {
+
+        // Create a hidden input element, and append it to the form:
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.setAttribute('data-stripe', 'name');
+        input.value = value;
+        formInstance.append(input);
+    };
+</script>
+</body>
+</html>

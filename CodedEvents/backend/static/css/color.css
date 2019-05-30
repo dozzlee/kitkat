@@ -1,0 +1,65 @@
+.accent-0{
+  color:#FFF !important;
+}
+
+.accent-bg-0{
+  background-color:#000 !important;
+  background:#000 !important;
+}
+
+.accent-1{
+  color:#222 !important;
+}
+
+.accent-bg-1{
+  background-color:#222 !important;
+  background:#000 !important;
+}
+
+.accent-bg-1-nh{
+  background-color:#222 !important;
+  background:#000 !important;
+}
+
+.accent-bg-1:hover{
+  background-color:#212121 !important;
+  background:#212121 !important;
+}
+
+.accent-2{
+  color: #B71C1C !important;
+}
+
+.accent-bg-2{
+  background-color:#B71C1C !important;
+  background:#B71C1C !important;
+}
+
+.accent-bg-2:hover{
+  background-color:#D32F2F !important;
+  background:#D32F2F !important;
+}
+
+.accent-bg-3{
+  background-color: #595a5b !important;
+  background: #595a5b !important;
+  border-color: #595a5b !important;
+}
+
+.accent-bg-4{
+  background-color: #0288D1 !important;
+  background: #0288D1 !important;
+  border-color: #0288D1 !important
+}
+
+.accent-bg-5{
+  background-color: #43A047 !important;
+  background: #43A047 !important;
+  border-color: #43A047 !important
+}
+
+.accent-bg-6{
+  background-color: #DDD !important;
+  background: #DDD !important;
+  border-color: #DDD !important
+}

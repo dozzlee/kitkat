@@ -1,0 +1,91 @@
+{% extends "master_layout.html" %}
+
+{% block content %}
+<div id="slider" class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="slider-carousel" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#slider-carousel" data-slide-to="1"></li>
+                    <li data-target="#slider-carousel" data-slide-to="2"></li>
+                </ol>
+
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <div class="col-sm-6">
+                            <h1><span></span></h1>
+                            <h2>Great Sales! Great Prices!</h2>
+                            <p>Come shop from our wide range of product collections. Prices are very affordable</p>
+                            <button type="button" class="btn btn-default slider-purchase-btn accent-bg-0"><a class="accent-0" href="#shopper">Buy now</a></button>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="https://www.govloop.com/wp-content/uploads/2015/01/iStock_000021355753_Large-copy.jpg" width="500px" height="500px" class="img-responsive" alt="" />
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="col-sm-6">
+                            <h1><span></span></h1>
+                            <h2>Great Sales! Great Prices!</h2>
+                            <p>Come shop from our wide range of product collections. Prices are very affordable</p>
+                            <button type="button" class="btn btn-default slider-purchase-btn accent-bg-0"><a class="accent-0" href="#shopper">Buy now</a></button>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="http://www.redi.co.za/slider/images/01_box_bottom1.png" class="img-responsive" alt="" style="width:750px; height:375px;"/>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <div class="col-sm-6">
+                            <h1><span></span></h1>
+                            <h2>Great Sales! Great Prices!</h2>
+                            <p>Come shop from our wide range of product collections. Prices are very affordable</p>
+                            <button type="button" class="btn btn-default slider-purchase-btn accent-bg-0"><a class="accent-0" href="#shopper">Buy now</a></button>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="http://www.chameleonjohn.com/blog/wp-content/uploads/2016/03/shutterstock_142577083.jpg" class="img-responsive" alt="" style="width:280px; height:375px;"/>
+                        </div>
+                    </div>
+
+                </div>
+
+                <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                <a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    <div id="shopper" class="">
+      <div class="row">
+        <div class="col-sm-12 padding-right">
+          <div class="features_items">
+            <h2 class="title text-center"> Events List </h2>
+          </div>
+          {% if event_list %}
+            {% for event in event_list %}
+              <div class="col-sm-5 col-md-3">
+                <div class="thumbnail product">
+                  <img src="" class="img-responsive">
+                  <div class="caption" style="text-align:center;">
+                    <p style="font-weight: 400; color: #131416; margin: 0 0 10px 0;">{{ event.name }}</p>
+                    <p class="accent-2">{{ event.desc }}</p>
+                    <p><a href="/backend/events/view/{{event.id}}" class="btn btn-product accent-bg-0 accent-0" role="button"><span class="fa fa-shopping-cart"></span> View</a> </p>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              {% endif %} 
+        </div>
+      </div>
+    </div>
+    <script>
+    /*price range*/
+     $('#price-slider').slider();
+    </script>
+{% endblock %}
