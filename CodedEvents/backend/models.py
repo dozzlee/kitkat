@@ -62,11 +62,32 @@ class Event(models.Model):
 class Ticket(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     quantity = models.IntegerField(default = None, blank=False, null=False)
+    ticket_desc = models.CharField(max_length=30)
     price = models.FloatField(default = None, blank=False, null=False)
     status = models.CharField(max_length=30)
     shut_off_time = models.DateTimeField(default = None, blank = False, null = False)
 
 
 class Booking(models.Model):
-    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    total_paid = models.FloatField(default = None, blank=False, null=False)
+    transaction_id = models.CharField(default = None, max_length=30)
+
+class BookingInstance(models.Model):
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default = None, blank=False, null=False)
+    created_at = models.DateTimeField(default  = None, blank = False, null = False)
+    updated_at = models.DateTimeField(default = None, blank = False, null = False)
+
+class Cart(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default  = None, blank = False, null = False)
+    updated_at = models.DateTimeField(default = None, blank = False, null = False)
+
+class CartInstance(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default = None, blank=False, null=False)
+    created_at = models.DateTimeField(default  = None, blank = False, null = False)
+    updated_at = models.DateTimeField(default = None, blank = False, null = False)

@@ -6,7 +6,7 @@
   <section class="product-details-product-img">
       <div class="product-details-product-image-holder">
           <div>
-            <a><img src="" alt=""></a>
+            <a><img src="http://www.placehold.it/200x200" alt=""></a>
           </div>
       </div>
   </section>
@@ -24,22 +24,46 @@
             {% endif %}
           </li>
       </ul>
-      <div class="product-details-price">
-          Price<strong> $10</strong>
+      <div class="row">
+        <div class="col-md-12">
+            <table class="item-list table table-striped" style="border:1px solid #ddd; margin-bottom:0px; width:100%;">
+                <thead>
+                   <tr>
+                      <th style="width:5%"></th>
+                      <th>Description (Price)</th>
+                      <th>Order Amount</th>
+                      <th>Tickets Left</th>
+                   </tr>
+                </thead>
+                <tbody>
+                  {% for ticket in event.ticket_set.all %}
+                  <tr>
+                    <td class="unit-price hidden-xs" style="width:5%;">
+                      <input type="checkbox" value="{{ticket.id}}" class="form-control" name="{{form.quantity.name}}">
+                    </td>
+                    <td class="unit-price hidden-xs">{{ticket.ticket_desc}} [ ${{ticket.price}} ]</td>
+                    <td class="unit-price hidden-xs">
+                      <input type="text" value="{{ticket.quantity}}" class="form-control" name="{{form.quantity.name}}" placeholder="Number of Tickets">
+                    </td>
+                    <td class="unit-price hidden-xs">{{ticket.status}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+        </div>
       </div>
       <div class="product-details-line"></div>
+      <div class="product-details-price">
+        <strong>COST TOTAL: $10</strong>
+      </div>
       <form method="POST" action="" role="form">
           {% csrf_token %}
-        <input type="hidden" name="command" />
-        <input type="hidden" name="link" />
-        <input type="hidden" name="productId" value="{{event.id}}"/>
-        {% if event.tickets_available > 0 %}
-          <button type="submit" class="product-details-btn product-details-btn-cart">Buy Ticket</button>
-        {% else %}
-          <button type="submit" style="opacity:0.4;" class="product-details-btn product-details-btn-cart" disabled>Buy Ticket</button>
-        {% endif %}
-        <label>Qty:</label>
-        <input type="text" placeholder="1" class="product-details-qty-holder" name="quantity">
+          <input type="hidden" name="{{event.id}}" value="{{event.id}}"/>
+          {% if event.tickets_available > 0 %}
+            <button type="submit" class="product-details-btn product-details-btn-cart">Buy Ticket</button>
+          {% else %}
+            <button type="submit" style="opacity:0.4;" class="product-details-btn product-details-btn-cart" disabled>Buy Ticket</button>
+          {% endif %}
       </form>
       <div class="product-details-tabs">
           <ul class="product-details-nav product-details-nav-tabs">

@@ -3,13 +3,15 @@
 {% block content %}
 
     <div class="container" style="margin-top:40px;">
-        <!-- if (session()->has('successful')) -->
-            <!-- <div class="row">
+        {% if form.errors %}
+            <div class="row">
               <div class="col-md-6 col-md-offset-3">
-                  <div class="alert alert-success"><strong>session()->get('successful')</strong></div>
+                  {% for key,value in form.errors.items %} 
+                  <div class="alert alert-danger"><strong>{{ key|escape }} : {{ value|escape }}</strong></div>
+                  {% endfor %}
               </div>
-            </div> -->
-        <!-- endif -->
+            </div>
+         {% endif %}
         <div class="row" style="margin-bottom:10px;">
             <div class="col-sm-6">
                 <a href="/backend/admin/events/new"><button class="btn btn-success pull-left accent-bg-5"><i class="fa fa-plus"></i> Add New Event</button></a>
@@ -55,78 +57,188 @@
                                  <input type="hidden" value="{{event.id}}" name="event_id">
                                  <button class="save col-md-3 btn accent-bg-8 accent-0" data-toggle="modal" style="padding: 0px 10px;" data-target="#myModal-{{event.id}}" type="button"><i class="fa fa-edit"></i></button>
                                  <button class="col-md-3 btn accent-bg-2 accent-0" style="height:30px; padding: 0px 10px;" type="submit" name="event_submit_type" value="event_delete"><i class="fa fa-trash-o"></i></button>
-                                 <button class="col-md-5  btn accent-bg-5 accent-0"  data-toggle="modal" style="padding: 0px 10px; width:100%;" data-target="#myModal-{{event.id}}" type="button">Allocate Tickets</button>
+                                 <button class="col-md-5  btn accent-bg-5 accent-0"  data-toggle="modal" style="padding: 0px 10px; width:100%;" data-target="#myModal-ticket-{{event.id}}" type="button">Allocate Tickets</button>
                               </div>
                            </div>
                          </td>
                       </tr>
                       </form>
-                      {% if form.errors %}
-                     <ul>
-                        {% for key,value in form.errors.items %} 
-                           <li>{{ key|escape }} : {{ value|escape }}</li>
-                        {% endfor %}
-                     </ul>
-                     {% endif %}
 
                       <!-- Modal -->
-                      <div id="myModal-{{event.id}}" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
+                   <div id="myModal-ticket-{{event.id}}" class="modal fade" role="dialog">
+                        <div class="modal-dialog" style="width:680px;">
 
                           <!-- Modal content-->
                           <div class="modal-content">
                             <div class="modal-header accent-bg-1">
                               <button type="button" class="close accent-0 accent-bg-0" data-dismiss="modal">&times;</button>
-                              <h4 class="modal-title accent-0"><i class="fa fa-edit"> Edit Event Information</i></h4>
+                              <h4 class="modal-title accent-0"><i class="fa fa-edit"> Allocate Event Ticket Information</i></h4>
                             </div>
-                            <form method="POST" action="" role="form">
-                                 {% csrf_token %}
+                            <!-- <form method="POST" action="" role="form">
+                               {% csrf_token %} -->
                               <div class="modal-body">
                                 <div class="row">
-                                   <div class="col-md-6">
-                                      <div class="form-group">
-                                         <label>Event Name</label>
-                                         <input type="text" value="{{event.name}}" class="form-control" name="{{form.name.name}}" placeholder="Edit Product Name">
-                                      </div>
-                                   </div>
-                                   <div class="col-md-3">
-                                      <div class="form-group">
-                                         <label>Tickets Available</label>
-                                         <input type="text" value="{{event.tickets_available}}" class="form-control" name="{{form.tickets_available.name}}" placeholder="Edit Product Stock">
-                                       </div>
-                                   </div>
-                                   <div class="col-md-3">
-                                       <div class="form-group">
-                                          <label>End Date</label>
-                                          <input type="date" value="{{event.end_time}}" class="form-control" name="{{form.end_time.name}}" placeholder="Edit End Date for event">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                          <div class="form-group">
-                                             <label>Organizers</label>
-                                             {{form.organizers}}
-                                          </div>
-                                       </div>
                                    <div class="col-md-12">
                                       <div class="form-group">
-                                         <label>Event Description</label>
-                                         <textarea type="text" class="form-control" name="{{form.desc.name}}" placeholder="Edit Event Description">
-                                            {{event.desc}}
-                                         </textarea>
+                                         <label>Event Name: {{event.name}} | Tickets Available {{ event.tickets_available }}</label>
                                       </div>
                                    </div>
-                                 </div>
+                                   <!-- Ticket View -->
+                                   <div class="col-md-12">
+                                       <div class="divTable">
+                                          <div class="divTableBody">
+                                             <div class="divTableRow">
+                                                <div class="divTableCell">Desc</div>
+                                                <div class="divTableCell">Quantity</div>
+                                                <div class="divTableCell">Price</div>
+                                                <div class="divTableCell">Tickets Remaining</div>
+                                                <div class="divTableCell">Tickets EOS</div>
+                                                <div class="divTableCell"></div>
+                                             </div>
+                                             {% for ticket in event.ticket_set.all %}
+                                             <form method="POST" action="" role="form">
+                                             {% csrf_token %}
+                                             <div class="divTableRow">
+                                                <div class="divTableCell">
+                                                   <input type="text" value="{{ticket.ticket_desc}}" class="form-control" name="{{form.ticket_desc.name}}" placeholder="Ticket Description">
+                                                </div>
+                                                <div class="divTableCell">
+                                                   <input type="text" value="{{ticket.quantity}}" class="form-control" name="{{form.quantity.name}}" placeholder="Number of Tickets">
+                                                </div>
+                                                <div class="divTableCell">
+                                                   <input type="text" value="{{ticket.price}}" class="form-control" name="{{form.price.name}}" placeholder="Price of Tickets">
+                                                </div>
+                                                <div class="divTableCell">
+                                                   <input type="text" value="{{ticket.status}}" class="form-control" name="{{form.status.name}}" placeholder="Tickets Available">
+                                                </div>
+                                                <div class="divTableCell">
+                                                   <input type="date" value="{{ticket.shut_off_time}}" class="form-control" name="{{form.shut_off_time.name}}" placeholder="Ticket ShutOff Time/Date">
+                                                </div>
+                                                <div class="divTableCell">
+                                                      <input type="hidden" value="{{ticket.id}}" name="ticket_id">
+                                                      <input type="hidden" value="{{event.id}}" name="event_id">
+                                                      <button class="col-md-3 btn accent-0"  style="height: 30px; padding:  5px 16px 5px 4px; background-color: #595a5b;" type="submit" name="event_submit_type" value="event_ticket_update"><i class="fa fa-save"></i></button>
+                                                      <button class="col-md-3 btn accent-bg-2 accent-0" style="height:30px;  padding: 5px 14px 5px 3px;" type="submit" name="event_submit_type" value="event_ticket_delete"><i class="fa fa-trash-o"></i></button>
+                                                </div>
+                                             </div>
+                                             </form>
+                                             {% endfor %}
+                                          </div>
+                                       </div>
+                                   </div>
+                                   <form method="POST" action="" role="form">
+                                       {% csrf_token %}
+                                   <div class="col-md-6" style="margin-top:20px;">
+                                       <div class="form-group">
+                                          <label>Add New Ticket Group</label>
+                                       </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                       <div class="divTable">
+                                             <div class="divTableBody">
+                                                <div class="divTableRow">
+                                                   <div class="divTableCell">Desc</div>
+                                                   <div class="divTableCell">Quantity</div>
+                                                   <div class="divTableCell">Price</div>
+                                                   <div class="divTableCell">Tickets Remaining</div>
+                                                   <div class="divTableCell">Tickets EOS</div>
+                                                </div>
+                                                <div class="divTableRow">
+                                                   <div class="divTableCell">
+                                                      <input type="text" value="{{ticket.ticket_desc}}" class="form-control" name="{{form.ticket_desc.name}}" placeholder="Ticket Description">
+                                                   </div>
+                                                   <div class="divTableCell">
+                                                      <input type="text" value="{{ticket.quantity}}" class="form-control" name="{{form.quantity.name}}" placeholder="Number of Tickets">
+                                                   </div>
+                                                   <div class="divTableCell">
+                                                      <input type="text" value="{{ticket.price}}" class="form-control" name="{{form.price.name}}" placeholder="Price of Tickets">
+                                                   </div>
+                                                   <div class="divTableCell">
+                                                      <input type="text" value="{{ticket.status}}" class="form-control" name="{{form.status.name}}" placeholder="Tickets Available">
+                                                   </div>
+                                                   <div class="divTableCell">
+                                                      <input type="date" value="{{ticket.shut_off_time}}" class="form-control" name="{{form.shut_off_time.name}}" placeholder="Ticket ShutOff Time/Date">
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                    </div>
+                                    <div class="col-md-12 pull-right" style="margin-top:20px; float: right;">
+                                       <div class="form-group">
+                                          <input type="hidden" value="{{event.id}}" name="event_id">
+                                          <button type="submit" class="btn btn-default accent-bg-5 accent-0" name="event_submit_type" value="event_alloc_ticket">Add New Ticket Group</button>
+                                       </div>
+                                    </div>
+                                    </form>
+                                    </div>
                               </div>
                               <div class="modal-footer">
-                                <input type="hidden" value="{{event.id}}" name="event_id">
-                                <button type="submit" class="btn btn-default accent-bg-5 accent-0" name="event_submit_type" value="event_edit">Save</button>
                               </div>
-                            </form>
+                            <!-- </form> -->
                           </div>
                         </div>
-                      </div>
-                      {% endfor %}
+                  </div>
+
+                  <!-- Modal -->
+                  <div id="myModal-{{event.id}}" class="modal fade" role="dialog">
+                     <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                           <div class="modal-header accent-bg-1">
+                           <button type="button" class="close accent-0 accent-bg-0" data-dismiss="modal">&times;</button>
+                           <h4 class="modal-title accent-0"><i class="fa fa-edit"> Edit Event Information</i></h4>
+                           </div>
+                           <form method="POST" action="" role="form">
+                              {% csrf_token %}
+                           <div class="modal-body">
+                              <div class="row">
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label>Event Name</label>
+                                       <input type="text" value="{{event.name}}" class="form-control" name="{{form.name.name}}" placeholder="Edit Product Name">
+                                    </div>
+                                 </div>
+                                 <div class="col-md-3">
+                                    <div class="form-group">
+                                       <label>Tickets Available</label>
+                                       <input type="text" value="{{event.tickets_available}}" class="form-control" name="{{form.tickets_available.name}}" placeholder="Edit Product Stock">
+                                    </div>
+                                 </div>
+                                 <div class="col-md-3">
+                                    <div class="form-group">
+                                       <label>End Date</label>
+                                       <input type="date" value="{{event.end_time}}" class="form-control" name="{{form.end_time.name}}" placeholder="Edit End Date for event">
+                                    </div>
+                                 </div>
+                                 <div class="col-md-3">
+                                       <div class="form-group">
+                                          <label>Organizers</label>
+                                          {{form.organizers}}
+                                       </div>
+                                    </div>
+                                 <div class="col-md-12">
+                                    <div class="form-group">
+                                       <label>Event Description</label>
+                                       <textarea type="text" class="form-control" name="{{form.desc.name}}" placeholder="Edit Event Description">
+                                          {{event.desc}}
+                                       </textarea>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="modal-footer">
+                              <input type="hidden" value="{{event.id}}" name="event_id">
+                              <button type="submit" class="btn btn-default accent-bg-5 accent-0" name="event_submit_type" value="event_edit">Save</button>
+                           </div>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+
+                  {% endfor %}
                    </tbody>
+                   
                 </table>
             </div>
         </div>

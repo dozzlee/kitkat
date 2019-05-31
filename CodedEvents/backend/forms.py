@@ -2,18 +2,49 @@ import datetime
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from backend.models import *
+from django.forms.models import fields_for_model,model_to_dict
 from django import forms
 from django.shortcuts import get_object_or_404
 
-class EditEventForm(forms.ModelForm):
-    name = forms.CharField(max_length=30)
-    desc = forms.CharField(max_length=100)
-    tickets_available = forms.IntegerField()
-    organizers = forms.ModelMultipleChoiceField(queryset=Profile.objects.all())
+class EventBaseForm(forms.ModelForm):
+    name = forms.CharField(max_length=30, required=False)
+    desc = forms.CharField(max_length=100, required=False)
+    tickets_available = forms.IntegerField(required=False)
+    organizers = forms.ModelMultipleChoiceField(queryset=Profile.objects.all(), required=False)
 
     class Meta:
         model = Event
-        fields = ['name', 'desc', 'tickets_available', 'organizers', 'end_time']
+        fields = ('name', 'desc', 'tickets_available', 'organizers')
+
+class EditEventForm(EventBaseForm):
+    ticket_desc = forms.CharField(max_length=30, required=False)
+    quantity = forms.IntegerField(required=False)
+    price = forms.FloatField(required=False)
+    status = forms.CharField(max_length=30, required=False)
+    shut_off_time = forms.DateTimeField(required=False)
+
+    class Meta(EventBaseForm.Meta):
+        fields = EventBaseForm.Meta.fields + ('ticket_desc', 'price','quantity', 'status', 'shut_off_time')
+    
+    def save(self, commit=True, ticket=None):
+        instance = super(EditEventForm, self).save(commit=False)
+
+        # Check if ticket instance was passed in arguments
+        if ticket == None:
+            ticket = Ticket()
+
+        # Check if all values filled and save to ticket instance
+        setattr(ticket, 'ticket_desc', self.cleaned_data['ticket_desc'])
+        setattr(ticket, 'quantity', self.cleaned_data['quantity'])
+        setattr(ticket, 'price', self.cleaned_data['price'])
+        setattr(ticket, 'status', self.cleaned_data['status'])
+        setattr(ticket, 'shut_off_time', self.cleaned_data['shut_off_time'])
+        setattr(ticket, 'event_id', instance.id)
+
+        ticket.save()
+        # if commit:
+        #     instance.save()
+        return instance
 
 class AddEventForm(forms.ModelForm):
     name = forms.CharField(max_length=30)
