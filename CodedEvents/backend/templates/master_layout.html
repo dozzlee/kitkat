@@ -215,16 +215,16 @@
                         <!-- Btn Wrapper -->
                         <div class="btn-wrapper dropdown">
 
-                            <!-- <a aria-expanded="false" class="btn btn-outline" data-toggle="dropdown">
+                            <a aria-expanded="false" class="btn btn-outline" data-toggle="dropdown">
                                 {% if user.is_authenticated %}
-                                {% if cart %}
-                                <b class="badge badge-color badge-round">
-                                  quantity
-                                </b>
-                                {% endif %} 
+                                    {% if cart.cartinstance_set.all %}
+                                    <b class="badge badge-color badge-round">
+                                        {{cart.cartinstance_set.all.count}}
+                                    </b>
+                                    {% endif %} 
                                 {% endif %} 
                               <i class="ti ti-bag"></i> 
-                            </a> -->
+                            </a>
 
                             <!-- Dropdown Panel -->
                             <div class="dropdown-menu dropdown-panel dropdown-right" data-keep-open="true">
@@ -232,29 +232,29 @@
                                     <!-- Mini Cart -->
                                     <ul class="mini-cart">
                                         <!-- Item -->
-                                        <!-- @if(Auth::user())
-                                          @if($cart)
-                                            @foreach ($cart as $cartItem)
+                                        {% if user.is_authenticated %}
+                                          {% if cart.cartinstance_set.all %}
+                                            {% for cartItem in cart.cartinstance_set.all %}
                                             <li class="clearfix">
-                                                <img src="$cartItem->product->imageurl" alt="">
+                                                <img src="" alt="">
                                                 <div class="text">
-                                                    <a class="title" href="#">$cartItem->product->name</a>
-                                                    <div class="details">$cartItem->quantity x $ number_format($cartItem->product->price,2,'.','')
+                                                    <a class="title" href="#">{{cartItem.ticket.event.name}} | {{cartItem.ticket.ticket_desc}}</a>
+                                                    <div class="details">{{cartItem.quantity}} x ${{cartItem.ticket.price}}
                                                         <div class="btn-group">
-                                                            <a class="btn accent-0 accent-bg-2" href="/cart"><i class="ti ti-pencil"></i></a>
-                                                            <a class="btn btn-default" href="/carts/$cartItem->id/delete"><i class="ti ti-trash"></i></a>
+                                                            <a class="btn accent-0 accent-bg-2" href="/backend/cart"><i class="ti ti-pencil"></i></a>
+                                                            <a class="btn btn-default" href=""><i class="ti ti-trash"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </li>
-                                            @endforeach
-                                            <p style="text-align:right; margin:-10px 0px; color:#222; padding:0px;">Cart Total: $ number_format($total,2,'.','') </p>
-                                          @else
+                                            {% endfor %}
+                                            <p style="text-align:right; margin:-10px 0px; color:#222; padding:0px;">Cart Total: $ {{cart.total}}  </p>
+                                          {% else %}
                                             <li><p style="text-align:center;">No items in cart</p></li>
-                                          @endif
-                                        @else
+                                          {% endif %} 
+                                        {% else %} 
                                             <li><p style="text-align:center;">Login to view cart</p></li>
-                                        @endif -->
+                                        {% endif %} 
                                         <!-- /Item -->
                                     </ul>
                                     <!-- /Mini Cart -->
@@ -263,10 +263,10 @@
                                 <section class="section-divider">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <a class="btn btn-block accent-0 accent-bg-1" style="margin-top:5px; margin-bottom:5px;" href="/cart">view cart</a>
+                                            <a class="btn btn-block accent-0 accent-bg-1" style="margin-top:5px; margin-bottom:5px;" href="/backend/cart">view cart</a>
                                         </div>
                                         <div class="col-md-6">
-                                            <a class="btn btn-block accent-0 accent-bg-2" style="margin-top:5px; margin-bottom:5px;" href="/checkout">checkout</a>
+                                            <a class="btn btn-block accent-0 accent-bg-2" style="margin-top:5px; margin-bottom:5px;" href="/backend/checkout">checkout</a>
                                         </div>
                                     </div>
                                 </section>

@@ -1,12 +1,6 @@
-@extends('layouts.master')
+{% extends "master_layout.html" %}
 
-@section('Digital shop', 'Page Title')
-
-@section('sidebar')
-    @parent
-@endsection
-
-@section('content')
+{% block content %}
     <div class="row" style="margin-top:30px; margin-bottom:40px;">
         <div class="col-sm-12 col-md-12">
           <div class="cart">
@@ -21,38 +15,38 @@
                  </tr>
               </thead>
               <tbody>
-                @foreach($cart as $cartItem)
-                <form name="addtocartform-{{$cartItem->product->id}}" method="POST" action="{{route('cart-edit-item')}}" role="form">
-                  {!! csrf_field() !!}
+                {% for cartItem in cart.cartinstance_set.all %}
+                <form  method="POST" action="" role="form">
+                  {% csrf_token %}
                  <tr>
-                    <td class="image hidden-xs"><img src="{{$cartItem->product->imageurl}}" alt="{{$cartItem->product->name}}"></td>
+                    <td class="image hidden-xs"><img src="http://placehold.it/40x40" alt="{{cartItem.ticket.event.name}}_{{cartItem.ticket.ticket_desc}}"></td>
                     <td class="details">
                        <div class="clearfix">
                           <div class="pull-left no-float-xs">
-                             <a href="#" class="title">{{$cartItem->product->name}}</a>
+                             <a href="#" class="title">{{cartItem.ticket.event.name}} | {{cartItem.ticket.ticket_desc}}</a>
                              <div class="">
-                                {{$cartItem->product->description}}
+                                {{cartItem.ticket.event.desc}}
                              </div>
-                             <span>Product Code: PID{{$cartItem->product->id}}</span>
+                             <span>Event Code: EID{{cartItem.ticket.event.id}}_{{cartItem.ticket.id}}</span>
                           </div>
                           <div class="action pull-right no-float-xs">
                              <div class="clearfix">
-                                <button class="save" type="submit"><i class="fa fa-save"></i></button>
-                                <a href="/carts/{{$cartItem->id}}/delete" class="btn accent-bg-2 accent-0" style="height:30px;"><i class="fa fa-trash-o"></i></a>
+                                <button class="save" type="submit" name="cart_submit_type" value="cart_update"><i class="fa fa-save"></i></button>
+                                <button class="btn accent-bg-2 accent-0" style="height:30px;" type="submit" name="cart_submit_type" value="cart_delete"><i class="fa fa-trash-o"></i></button>
                                 <!-- </button> -->
                              </div>
                           </div>
                        </div>
                     </td>
                     <td class="qty">
-                       <input type="text" value="{{$cartItem->quantity}}" name="quantity">
-                       <input type="hidden" name="productId" value="{{$cartItem->product->id}}"/>
+                       <input type="text" value="{{cartItem.quantity}}" name="cart_item_quantity">
+                       <input type="hidden" value="{{cartItem.id}}"  name="cart_item_id" />
                     </td>
-                    <td class="unit-price hidden-xs"><span class="currency">$</span>{{number_format($cartItem->product->price,2,'.','')}}</td>
-                    <td class="total-price accent-2"><span class="currency">$</span>{{number_format($cartItem->product->price * $cartItem->quantity,2,'.','')}}</td>
+                    <td class="unit-price hidden-xs"><span class="currency">$</span>{{ cartItem.ticket.price }}</td>
+                    <td class="total-price accent-2"><span class="currency">$</span>{{ cartItem.total }}</td>
                  </tr>
                  </form>
-                 @endforeach
+                 {% endfor %}
               </tbody>
            </table>
            <table class="cart-summary">
@@ -69,19 +63,19 @@
                           <tbody>
                              <tr>
                                 <td>Sub Total</td>
-                                <td class="price">${{number_format($total,2,'.','')}}</td>
+                                <td class="price">${{ cart.total }}</td>
                              </tr>
                              <tr>
                                 <td>Shipping</td>
-                                <td class="price">${{number_format(25,2,'.','')}}</td>
+                                <td class="price">$0.00</td>
                              </tr>
                              <tr>
                                 <td class="cart-total">Total</td>
-                                @if($total)
-                                <td class="cart-total price accent-2">${{number_format($total + 25,2,'.','')}}</td>
-                                @else
-                                <td class="cart-total price accent-2">${{number_format($total,2,'.','')}}</td>
-                                @endif
+                                {% if total %}
+                                <td class="cart-total price accent-2">${{ cart.total }}</td>
+                                {% else %}
+                                <td class="cart-total price accent-2">${{ cart.total }}</td>
+                                {% endif %}
                              </tr>
                           </tbody>
                        </table>
@@ -91,10 +85,10 @@
            </table>
         </div>
         <div class="cart-buttons clearfix">
-          <a class="btn btn-block btn-bigger accent-0 accent-bg-2" href="/checkout"><i class="icon-left fa fa-shopping-cart"></i> Go to checkout</a>
-          <a class="btn btn-bigger accent-0 accent-bg-1" href="/"><i class="icon-left fa fa-arrow-left"></i> Continue Shopping</a>
+          <a class="btn btn-block btn-bigger accent-0 accent-bg-2" href="/backend/checkout"><i class="icon-left fa fa-shopping-cart"></i> Go to checkout</a>
+          <a class="btn btn-bigger accent-0 accent-bg-1" href="/backend/"><i class="icon-left fa fa-arrow-left"></i> Continue Shopping</a>
         </div>
       </div>
     </div>
 
-@endsection
+{% endblock %}

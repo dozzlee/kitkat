@@ -53,6 +53,7 @@ urlpatterns = [
     path('backend/admin/events/new', pages.AdminEventAdd, name='admin_event_add'),
     path('backend/admin/orders', pages.AdminOrdersList, name='admin_event_orders'),
     path('backend/events/view/<int:id>', pages.EventView, name='event_view'),      
+    path('backend/cart', pages.CartView, name='cart_view'),
 ]
 urlpatterns+= static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += [

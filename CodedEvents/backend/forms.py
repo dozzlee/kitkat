@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from backend.models import *
 from django.forms.models import fields_for_model,model_to_dict
 from django import forms
+from django.forms import formset_factory, BaseFormSet
 from django.shortcuts import get_object_or_404
 
 class EventBaseForm(forms.ModelForm):
@@ -101,3 +102,32 @@ class AddEventForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
+class BuyTicketForm(forms.ModelForm):
+
+    class Meta:
+        model = CartInstance
+        fields = ['ticket', 'quantity', 'created_at', 'updated_at']
+        exclude = ['cart']
+
+    def __init__(self, *args, **kwargs):
+        super(BuyTicketForm, self).__init__(*args, **kwargs)
+
+        for i in list(self.fields.keys()):
+            v = self.fields[i]
+            self.fields["{}_{}".format(v, i)] = forms.CharField()
+
+class BaseTicketFormSet(BaseFormSet):
+    def clean(self):
+        """Checks that no two articles have the same title."""
+        if any(self.errors):
+            # Don't bother validating the formset unless each form is valid on its own
+            return
+        titles = []
+        for form in self.forms:
+            if self.can_delete and self._should_delete_form(form):
+                continue
+            title = form.cleaned_data.get('ticket')
+            if title in titles:
+                raise forms.ValidationError("Articles in a set must have distinct titles.")
+            titles.append(title)

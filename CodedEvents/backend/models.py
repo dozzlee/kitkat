@@ -85,9 +85,21 @@ class Cart(models.Model):
     created_at = models.DateTimeField(default  = None, blank = False, null = False)
     updated_at = models.DateTimeField(default = None, blank = False, null = False)
 
+    def total(self):
+        user_cart = Cart.objects.prefetch_related('cartinstance_set').get(id=self.id)
+        user_total = 0
+
+        for key, item in enumerate(user_cart.cartinstance_set.all()):
+            user_total += item.total()
+
+        return user_total
+
 class CartInstance(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     quantity = models.IntegerField(default = None, blank=False, null=False)
     created_at = models.DateTimeField(default  = None, blank = False, null = False)
     updated_at = models.DateTimeField(default = None, blank = False, null = False)
+
+    def total(self):
+        return self.quantity * self.ticket.price

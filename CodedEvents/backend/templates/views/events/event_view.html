@@ -11,6 +11,8 @@
       </div>
   </section>
   <section class="product-details-desc">
+      <form method="POST" action="" role="form">
+          {% csrf_token %}
       <h1>{{event.name}}</h1>
       <div class="product-details-line"></div>
       <ul>
@@ -39,11 +41,11 @@
                   {% for ticket in event.ticket_set.all %}
                   <tr>
                     <td class="unit-price hidden-xs" style="width:5%;">
-                      <input type="checkbox" value="{{ticket.id}}" class="form-control" name="{{form.quantity.name}}">
+                      <input type="checkbox" value="{{ticket.id}}" class="form-control" name="{{form.ticket.name}}_{{forloop.counter0}}">
                     </td>
                     <td class="unit-price hidden-xs">{{ticket.ticket_desc}} [ ${{ticket.price}} ]</td>
                     <td class="unit-price hidden-xs">
-                      <input type="text" value="{{ticket.quantity}}" class="form-control" name="{{form.quantity.name}}" placeholder="Number of Tickets">
+                      <input type="text" value="{{ticket.quantity}}" class="form-control" name="{{form.quantity.name}}_{{forloop.counter0}}" placeholder="Number of Tickets">
                     </td>
                     <td class="unit-price hidden-xs">{{ticket.status}}</td>
                   </tr>
@@ -56,9 +58,7 @@
       <div class="product-details-price">
         <strong>COST TOTAL: $10</strong>
       </div>
-      <form method="POST" action="" role="form">
-          {% csrf_token %}
-          <input type="hidden" name="{{event.id}}" value="{{event.id}}"/>
+          <input type="hidden" name="event_id" value="{{event.id}}"/>
           {% if event.tickets_available > 0 %}
             <button type="submit" class="product-details-btn product-details-btn-cart">Buy Ticket</button>
           {% else %}

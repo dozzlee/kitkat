@@ -34,7 +34,7 @@
     border: 1px solid #CCC;
 }
 .product-details-section form table {
-	display:inline-flex;
+	/* display:inline-flex; */
 	padding-left:1px;
 }
 .product-details-section form th {
@@ -399,7 +399,7 @@ NEW PRODUCT DETAILS
     width: 11%;
   }
   .product-details-section form table {
-	display: inline-flex;
+	/* display: inline-flex; */
 	padding-left: 10px;
   }
   .product-details-product-img {
