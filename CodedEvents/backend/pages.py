@@ -1,4 +1,4 @@
-from django.shortcuts import render,get_object_or_404, render_to_response
+from django.shortcuts import render,get_object_or_404, render_to_response, redirect
 
 # Create your views here.
 from .models import Event, Role, Address, Category, Profile, Ticket, Booking
@@ -12,17 +12,30 @@ from django.forms import formset_factory
 import json as simplejson
 import numbers
 
+def get_user_cart(request):
+        user = Profile.objects.filter(id=request.user.id).get()
+
+        # Check if user has cart else create new cart
+        if Cart.objects.filter(user=user).exists():
+                # user_cart = Cart.objects.filter(id=user.id).get()
+                user_cart = Cart.objects.prefetch_related('cartinstance_set').get(user=user)
+        else:
+                user_cart = Cart(user=user, created_at=datetime.date.today(), updated_at=datetime.date.today())
+                user_cart.save()
+        
+        return user_cart
+
 def index(request):
         num_visits = request.session.get('num_visits', 0)
         request.session['num_visits'] = num_visits+1
-        user_cart = Cart.objects.prefetch_related('cartinstance_set').get(id=request.user.id)
+        user_cart = get_user_cart(request)
         event_list = Event.objects.all()
 
         return render(request,'index.html',context={'event_list': event_list, 'num_visits': num_visits, 'cart':user_cart},)
 
 def AdminEventList(request):
         event_list = Event.objects.prefetch_related('ticket_set').all()
-        user_cart = Cart.objects.prefetch_related('cartinstance_set').get(id=request.user.id)
+        user_cart = get_user_cart(request)
 
         # If this is a POST request then process the Form data
         if request.method == 'POST':
@@ -67,7 +80,7 @@ def AdminEventList(request):
 
 def AdminEventAdd(request):
         event_list = Event.objects.all()
-        user_cart = Cart.objects.prefetch_related('cartinstance_set').get(id=request.user.id)
+        user_cart = get_user_cart(request)
 
         # If this is a POST request then process the Form data
         if request.method == 'POST':
@@ -86,7 +99,7 @@ def AdminEventAdd(request):
 
 def AdminOrdersList(request):
         event_list = Event.objects.all()
-        user_cart = Cart.objects.prefetch_related('cartinstance_set').get(id=request.user.id)
+        user_cart = get_user_cart(request)
 
         # If this is a POST request then process the Form data
         if request.method == 'POST':
@@ -111,18 +124,11 @@ def EventView(request, id):
         event_list = Event.objects.prefetch_related('ticket_set').get(pk=id)
         tickets = []
         today_time = datetime.date.today()
-        user_cart = Cart.objects.prefetch_related('cartinstance_set').get(id=request.user.id)
+        user_cart = get_user_cart(request)
 
         if request.method == 'POST':
                 user = request.user
                 formset = BuyTicketForm(request.POST)
-                
-                # Check if user has cart else create new cart
-                if Cart.objects.filter(id=user.id).exists():
-                        user_cart = Cart.objects.filter(id=user.id).get()
-                else:
-                        user_cart = Cart(user=user, created_at=datetime.date.today(), updated_at=datetime.date.today())
-                        user_cart.save()
 
                 # Create cart instances
                 for key, ticket in enumerate(event_list.ticket_set.all()):
@@ -133,21 +139,16 @@ def EventView(request, id):
                                 cart_instance = CartInstance(cart=user_cart, ticket=ticket, quantity=request.POST["quantity_{}".format(key)],created_at=datetime.date.today(), updated_at=datetime.date.today())
                                 cart_instance.save()
                         
-                # response = simplejson.dumps({"status": "Error", "request": request.POST, "tickets": tickets, "user_id":user.id})
-                # return HttpResponse (response)
-                return render(request,'cart/cart_view.html',context={'cart':user_cart},)
+                user_cart = get_user_cart(request)
+                # return render(request,'cart/cart_view.html',context={'cart':user_cart},)]
+                return redirect('cart_view')
         else:
                 formset = BuyTicketForm()
-
-                for key, item in enumerate(user_cart.cartinstance_set.all()):
-
-                        response = simplejson.dumps({"status": "Error", "request": request.POST, "quantity": item.quantity, "price": item.ticket.price, "cart_total": item.total()})
-                        return HttpResponse (response)
-
+                
         return render(request,'events/event_view.html',context={'event': event_list, 'form': formset, 'cart': user_cart},)
 
 def CartView(request):
-        user_cart = Cart.objects.prefetch_related('cartinstance_set').get(id=request.user.id)
+        user_cart = get_user_cart(request)
 
          # If this is a POST request then process the Form data
         if request.method == 'POST':
@@ -165,11 +166,10 @@ def CartView(request):
                         else:
                                 response = simplejson.dumps({"status": "Error", "request": request.POST, "type": int(request.POST['cart_item_quantity'])})
                                 return HttpResponse (response)
-
-                        user_cart = Cart.objects.prefetch_related('cartinstance_set').get(id=request.user.id)
+                        user_cart = get_user_cart(request)
                 elif request.POST.get('cart_submit_type', None) == "cart_delete":
                         cart_instance.delete()
-                        user_cart = Cart.objects.prefetch_related('cartinstance_set').get(id=request.user.id)
+                        user_cart = get_user_cart(request)
                 else:
                         response = simplejson.dumps({"status": "Error", "request": request.POST})
                         return HttpResponse (response)
